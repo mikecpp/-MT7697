@@ -40,20 +40,20 @@ int cli_gets(char *cmd)
         ch = (char) Serial.read();
         switch (ch) {
             case '\r':
+                break;
+            
             case '\n':
                 cmd[i] = '\0';
-                if(ch == '\r' || ch == '\n')
-                {
-                    Serial.print("\r\n");
-                    return 0;
-                }
-                break;
+                Serial.print("\r\n\r\n");
+                return 0;
+
             case 127:       // Back-Space
                 Serial.print(ch);
                 if (i > 0) {
                     i--;
                 }
                 break;
+            
             default:
                 if(i >= MAX_STR_LEN) {
                     break;
@@ -88,7 +88,7 @@ static int cli_help(int argc, char *arg[])
     Serial.print("command:\r\n");
     while(ptr->cmd[0]) {
         Serial.print(ptr->cmd);
-        Serial.print(":\t");
+        Serial.print(":    \t");
         Serial.print(ptr->help);
         Serial.println();
         ptr++;
