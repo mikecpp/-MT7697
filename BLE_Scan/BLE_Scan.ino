@@ -2,8 +2,6 @@
 #include <LBLE.h>
 #include <LBLECentral.h> 
 
-#include "cli.h"
-
 #define MAX_ADV_LEN 32
 
 char ssid[] = "SSR1100 (2.4G)"; 
@@ -14,31 +12,9 @@ int status   = WL_IDLE_STATUS;
 WiFiServer server(23);
 boolean alreadyConnected = false; 
 
-boolean ble_scan = false;
-
-int cli_scan(int argc, char *argv[])
-{
-    ble_scan = true;
-    
-    while(ble_scan) {
-        do_scan();
-        delay(1000);
-        if(Serial.available()){
-            char ch = Serial.read();
-            Serial.print(ch);
-            if(ch == 'Q' || ch == 'q') {
-                ble_scan = false;
-            }
-        }
-    }
-    
-    return 0;
-}
-
 void setup() 
 {
 	Serial.begin(115200);
-
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH); 
     
@@ -53,27 +29,15 @@ void setup()
 		Serial.print("Attempting to connect to SSID: ");
 		Serial.println(ssid);
 		status = WiFi.begin(ssid, pass);
+        digitalWrite(LED_BUILTIN, LOW); 
 	}
 
-    digitalWrite(LED_BUILTIN, LOW); 
 	server.begin();
  
 	printWifiStatus();
-
-    // Start Command Line Interface
-    int ret;
-
-    cli_init();
-    cli_register(cli_scan, "scan", "scan ble devices");
-    cli_task();      
 }
 
-void loop()
-{
-    delay(1000);
-}
-
-void do_scan() 
+void loop() 
 {
 	WiFiClient client = server.available();
 
@@ -91,12 +55,15 @@ void do_scan()
     			client.println("BLE/WiFi Gateway Start...");
     			alreadyConnected = true;
     		}
-            server.println(msg);        
+            // server.println(msg);        
+            client.println(msg);
     	}
     }
     
     LBLECentral.clear();
     LBLECentral.scan();
+
+    delay(1000);   
 }
 
 void printWifiStatus() 
