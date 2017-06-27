@@ -4,12 +4,15 @@
 
 #define MAX_ADV_LEN 32
 
-char ssid[] = "SSR1100 (2.4G)"; 
-char pass[] = "ykdah48545";
+// char ssid[] = "SSR1100 (2.4G)"; 
+// char pass[] = "ykdah48545";
+
+char ssid[] = "MikeAP"; 
+char pass[] = "mikechen";
 
 int keyIndex = 0;            
 int status   = WL_IDLE_STATUS;
-WiFiServer server(23);
+WiFiServer server(8888);
 boolean alreadyConnected = false; 
 
 void setup() 
@@ -52,12 +55,18 @@ void loop()
     	if (client) {
     	    if (!alreadyConnected) {
     			client.flush();
+                client.println("New Client");
     			client.println("BLE/WiFi Gateway Start...");
     			alreadyConnected = true;
     		}
-            // server.println(msg);        
-            client.println(msg);
+            /*          
+            while(client.available()) {
+                char c = client.read();
+                Serial.println(c);
+            }
+            */
     	}
+        server.println(msg);
     }
     
     LBLECentral.clear();
