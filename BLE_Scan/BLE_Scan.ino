@@ -4,12 +4,12 @@
 
 #define MAX_ADV_LEN 32
 
-char ssid[] = "SSR1100 (2.4G)"; 
-char pass[] = "ykdah48545";
+char ssid[] = "Mike iPhone 6 plus"; 
+char pass[] = "mikechen";
 
 int keyIndex = 0;            
 int status   = WL_IDLE_STATUS;
-WiFiServer server(23);
+WiFiServer server(8888);
 boolean alreadyConnected = false; 
 
 void setup() 
@@ -55,9 +55,8 @@ void loop()
     			client.println("BLE/WiFi Gateway Start...");
     			alreadyConnected = true;
     		}
-            // server.println(msg);        
-            client.println(msg);
     	}
+        server.println(msg);               
     }
     
     LBLECentral.clear();
@@ -102,9 +101,11 @@ uint32_t getAdvMsg(int index, char *data, uint32_t data_len)
     if(name.length() == 0) {
         name = "----";
     }
-    
-    sprintf(data, "%s\t%s\t%d\t%s", 
-            address.c_str(), name.c_str(), rssi, manufacture.c_str());
+
+    if(name.indexOf("BTag") != -1) {
+        sprintf(data, "2017-06-28,17:21:18,%s,%s,%d,%d,%s", 
+                address.c_str(), name.c_str(), rssi, manufacture.length()/2,manufacture.c_str());
+    }            
        
     return 0;
 }
