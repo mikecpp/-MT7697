@@ -4,14 +4,11 @@
 
 #define MAX_ADV_LEN 32
 
-<<<<<<< HEAD
-char ssid[] = "Mike iPhone 6 plus"; 
-=======
+// char ssid[] = "Mike iPhone 6 plus"; 
+// char ssid[] = "MikeAP"; 
 // char ssid[] = "SSR1100 (2.4G)"; 
 // char pass[] = "ykdah48545";
-
-char ssid[] = "MikeAP"; 
->>>>>>> 32c94850c6b9c1194834006baca7db7a3792217c
+char ssid[] = "Mike iPhone 6 plus"; 
 char pass[] = "mikechen";
 
 int keyIndex = 0;            
@@ -63,19 +60,8 @@ void loop()
     			client.println("BLE/WiFi Gateway Start...");
     			alreadyConnected = true;
     		}
-<<<<<<< HEAD
     	}
         server.println(msg);               
-=======
-            /*          
-            while(client.available()) {
-                char c = client.read();
-                Serial.println(c);
-            }
-            */
-    	}
-        server.println(msg);
->>>>>>> 32c94850c6b9c1194834006baca7db7a3792217c
     }
     
     LBLECentral.clear();
